@@ -6,6 +6,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Authorization
+app.use(function(req, res, next) {
+  if (req.headers.authorization !== process.env.API_TOKEN) {
+    res.status(400);
+    return res.json({ error: "No credentials sent!" });
+  }
+  next();
+});
+
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true
@@ -25,12 +34,17 @@ app.get("/products", async (req, res) => {
   try {
     const products = await client.query("SELECT * FROM products;");
     res.header("Content-Type", "application/json");
-    res.send({ data: products.rows });
+    res.status(200);
+    return res.json({ data: products.rows });
   } catch (e) {
     console.error(e);
-    res.end();
-    return;
+    res.status(500);
+    return res.json({ error: "Internal server error" });
   }
+});
+
+app.all("*", (req, res) => {
+  return res.json({ data: "Hello world!" });
 });
 
 process.env.PORT = process.env.PORT || 3000;
