@@ -6,12 +6,29 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Authorization
+app.use(function(req, res, next) {
+  if (req.headers.authorization !== process.env.API_TOKEN) {
+    res.status(400);
+    return res.json({ error: "No credentials sent!" });
+  }
+  next();
+});
+
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true
 });
 
 client.connect();
+
+app.get("/pginfo", async (req, res) => {
+  const pginfo = await client.query(
+    "SELECT table_schema,table_name FROM information_schema.tables;"
+  );
+  res.header("Content-Type", "application/json");
+  res.send({ data: pginfo.rows });
+});
 
 app.get("/products", async (req, res) => {
   try {
