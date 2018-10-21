@@ -21,7 +21,6 @@
 1. `npm i --save pg`
 1. `npm i --save db-migrate`
 1. `npm i --save db-migrate-pg`
-1. Add `"start": "node index.js"` in `package.json` scripts
 
 ## Database migration setup
 
@@ -42,5 +41,3 @@
 
 1. [Heroku postgres docs](https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-node-js)
 1. [db-migrate docs](https://db-migrate.readthedocs.io/en/latest/)
-1. [Express API](https://expressjs.com/en/4x/api.html)
-1. [Express middleware](https://expressjs.com/en/guide/using-middleware.html)
