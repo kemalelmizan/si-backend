@@ -9,7 +9,7 @@ create table products (
     discounted_price int8 not null,
     created_at timestamptz DEFAULT now(),
     updated_at timestamptz DEFAULT now(),
-    constraint fingerprint_features_pkey primary key (id)
+    constraint products_pkey primary key (id)
 ) with (OIDS = FALSE);
 insert into
     products

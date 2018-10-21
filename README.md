@@ -26,7 +26,7 @@
 
 1. `npm i -g db-migrate`
 1. Add `database.json` config file
-1. `DATABASE_URL=postgres://xxx db-migrate create <table_name> --sql-file`
+1. `DATABASE_URL=postgres://xxx db-migrate create <table_name> --sql-file -e production`
 1. Repeat previous step for every tables
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `DATABASE_URL=postgres://xxx db-migrate up -e production`
