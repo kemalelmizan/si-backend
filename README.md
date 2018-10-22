@@ -26,6 +26,7 @@
 ## Database migration setup
 
 1. `npm i -g db-migrate`
+1. `db-migrate -v`
 1. Add `database.json` config file
 1. `DATABASE_URL=postgres://xxx db-migrate create <table_name> --sql-file -e production`
 1. Repeat previous step for every tables
@@ -36,17 +37,34 @@
 
 1. Setup express routers
 1. Setup queries
+1. Generate random tokens by `Array(64).fill(0).map(x => Math.random().toString(36).charAt(2)).join('')`
 1. Setup `API_TOKEN` in heroku
 1. `DATABASE_URL=postgres://xxx SSL=true npm start`
+
+## Heroku CLI Commands
+
+1. `heroku auth:login`
+1. `heroku auth:whoami`
+1. `heroku logs --tail -a si-backend`
 
 ## Local Docker Postgres Dev DB Setup
 
 1. Install and run docker
 1. `docker -v`
 1. `docker run -p 5432:5432 --name si-backend -e POSTGRES_PASSWORD=sibackend -d postgres`
+1. `docker start si-backend`
 1. Add `dev` environment in `database.json`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres npm start`
+1. Create DB migration using local docker: `db-migrate create <table_name> --sql-file -e dev`
+
+## Generate User Specific Token
+
+1. `db-migrate create users --sql-file -e dev`
+1. Fill in SQL up and down script in `./migrations/sqls`
+1. `db-migrate down -e dev`
+1. `db-migrate up -e dev`
+1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
 ## Links and docs
 
