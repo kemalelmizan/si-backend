@@ -37,6 +37,16 @@
 1. Setup express routers
 1. Setup queries
 1. Setup `API_TOKEN` in heroku
+1. `DATABASE_URL=postgres://xxx SSL=true npm start`
+
+## Local Docker Postgres Dev DB Setup
+
+1. Install and run docker
+1. `docker -v`
+1. `docker run -p 5432:5432 --name si-backend -e POSTGRES_PASSWORD=sibackend -d postgres`
+1. Add `dev` environment in `database.json`
+1. `db-migrate up -e dev`
+1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres npm start`
 
 ## Links and docs
 
@@ -44,3 +54,4 @@
 1. [db-migrate docs](https://db-migrate.readthedocs.io/en/latest/)
 1. [Express API](https://expressjs.com/en/4x/api.html)
 1. [Express middleware](https://expressjs.com/en/guide/using-middleware.html)
+1. [Docker Cheat Sheet](https://github.com/wsargent/docker-cheat-sheet)

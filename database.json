@@ -2,5 +2,13 @@
   "production": {
     "driver": "pg",
     "ssl": "true"
+  },
+  "dev": {
+    "driver": "pg",
+    "user": "postgres",
+    "password": "sibackend",
+    "host": "localhost",
+    "database": "postgres",
+    "schema": "public"
   }
 }
