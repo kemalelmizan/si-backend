@@ -10,6 +10,11 @@ create table users (
     updated_at timestamptz DEFAULT now(),
     constraint users_pkey primary key (id)
 ) with (OIDS = FALSE);
+
+create index IF NOT EXISTS users_id on users(id);
+create index IF NOT EXISTS users_email_index on users(email);
+create index IF NOT EXISTS users_username_index on users(username);
+
 insert into
     users (
         username,

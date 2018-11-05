@@ -4,12 +4,15 @@ create table products (
     description text null,
     image_url text null,
     category text null,
-    price int8 not null,
-    discounted_price int8 not null,
+    price bigint not null,
+    discounted_price bigint not null,
     created_at timestamptz DEFAULT now(),
     updated_at timestamptz DEFAULT now(),
     constraint products_pkey primary key (id)
 ) with (OIDS = FALSE);
+
+create index IF NOT EXISTS products_id on products(id);
+
 insert into
     products (
         name,

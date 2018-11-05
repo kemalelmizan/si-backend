@@ -45,6 +45,8 @@
 
 1. `heroku auth:login`
 1. `heroku auth:whoami`
+1. `heroku apps`
+1. `heroku addons --all`
 1. `heroku logs --tail -a si-backend`
 
 ## Local Docker Postgres Dev DB Setup
@@ -52,19 +54,41 @@
 1. Install and run docker
 1. `docker -v`
 1. `docker run -p 5432:5432 --name si-backend -e POSTGRES_PASSWORD=sibackend -d postgres`
+1. `docker ps -a`
 1. `docker start si-backend`
 1. Add `dev` environment in `database.json`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres npm start`
 1. Create DB migration using local docker: `db-migrate create <table_name> --sql-file -e dev`
 
-## Generate User Specific Token
+## Generate User Specific Token (Postgres)
 
 1. `db-migrate create users --sql-file -e dev`
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `db-migrate down -e dev`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
+
+## Modular Development
+
+1. [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle)
+1. Add folders according to folder structure
+1. Restructure `index.js` into corresponding `controller`s and `model`s
+
+## Add table `stores`
+1. `db-migrate create stores --sql-file -e dev`
+1. `db-migrate up -e dev`
+1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
+
+## Add table `stores_products`
+
+## Add table `carts`
+
+## Add table `orders`
+
+## Add table `carts_products`
+
+## Add table `orders_products`
 
 ## Links and docs
 
