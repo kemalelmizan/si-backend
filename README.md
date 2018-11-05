@@ -70,6 +70,10 @@
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
+## ERD
+
+![erd](erd.png)
+
 ## Modular Development
 
 1. [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle)
@@ -90,6 +94,10 @@
 ## Add table `carts_products`
 
 ## Add table `orders_products`
+
+## To be covered in next sessions
+1. [ ] unit tests adn test coverages
+1. [ ] caching using redis
 
 ## Links and docs
 
