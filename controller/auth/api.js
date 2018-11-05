@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
     req.headers.authorization === undefined ||
     req.headers.authorization !== process.env.API_TOKEN
   ) {
-    reply.unauthorized(req, res, "invalid authorization header");
+    return reply.unauthorized(req, res, "invalid authorization header");
   }
   next();
 };

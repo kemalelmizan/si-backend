@@ -48,6 +48,7 @@
 1. `heroku apps`
 1. `heroku addons --all`
 1. `heroku logs --tail -a si-backend`
+1. to restart app: `heroku restart -a si-backend`
 
 ## Local Docker Postgres Dev DB Setup
 

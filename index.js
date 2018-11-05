@@ -5,7 +5,6 @@ const { Client } = require("pg");
 const AuthAPI = require("./controller/auth/api");
 const AuthUser = require("./controller/auth/user");
 const AuthAccess = require("./controller/auth/access");
-const HelperResponse = require("./controller/helper/response");
 
 const User = require("./controller/user/user");
 const Product = require("./controller/product/product");
