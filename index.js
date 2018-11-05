@@ -35,6 +35,8 @@ const product = Product(main_db);
 app.get("/products/:page/:items_per_page", product.getProducts);
 app.get("/product/:id", product.getProduct);
 app.post("/product", product.postProduct);
+app.patch("/product/:id", product.patchProduct);
+app.delete("/product/:id", product.deleteProduct);
 
 const user = User(main_db);
 app.get("/users/:page/:items_per_page", user.getUsers);

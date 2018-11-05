@@ -31,7 +31,7 @@ module.exports = client => {
 
   // getProduct
   module.getProduct = async (req, res) => {
-    req.query.id = parseInt(req.query.id);
+    req.params.id = parseInt(req.params.id);
     if (req.params.id <= 0)
       return reply.badRequest(req, res, "invalid parameter id");
 
@@ -49,6 +49,36 @@ module.exports = client => {
 
     try {
       const product = await modelProduct.insertProduct(req.body);
+      return reply.created(req, res, product);
+    } catch (e) {
+      return reply.error(req, res, e);
+    }
+  };
+
+  // patchProduct
+  module.patchProduct = async (req, res) => {
+    req.params.id = parseInt(req.params.id);
+    if (req.params.id <= 0)
+      return reply.badRequest(req, res, "invalid parameter id");
+    // TODO: validate body input
+
+    try {
+      const product = await modelProduct.updateProduct(req.params.id, req.body);
+      return reply.created(req, res, product);
+    } catch (e) {
+      return reply.error(req, res, e);
+    }
+  };
+
+  // deleteProduct
+  module.deleteProduct = async (req, res) => {
+    req.params.id = parseInt(req.params.id);
+    if (req.params.id <= 0)
+      return reply.badRequest(req, res, "invalid parameter id");
+    // TODO: validate body input
+
+    try {
+      const product = await modelProduct.deleteProduct(req.params.id);
       return reply.created(req, res, product);
     } catch (e) {
       return reply.error(req, res, e);

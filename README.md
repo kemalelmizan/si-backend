@@ -119,6 +119,7 @@
 ## To be covered in next sessions
 1. [ ] unit tests and test coverage
 1. [ ] caching using redis
+1. [ ] security: penetration testing, injection, OWASP
 
 ## Links and docs
 
