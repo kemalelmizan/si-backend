@@ -9,6 +9,8 @@ const AuthAccess = require("./controller/auth/access");
 const User = require("./controller/user/user");
 const Product = require("./controller/product/product");
 
+const HelperResponse = require("./controller/helper/response");
+
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,15 +32,17 @@ const authAccess = AuthAccess(main_db);
 app.use(authAccess.checkAccess);
 
 const product = Product(main_db);
-app.get("/product/:id", product.getProduct);
 app.get("/products/:page/:items_per_page", product.getProducts);
+app.get("/product/:id", product.getProduct);
+app.post("/product", product.postProduct);
 
 const user = User(main_db);
-app.get("/user/:id", user.getUser);
 app.get("/users/:page/:items_per_page", user.getUsers);
+app.get("/user/:id", user.getUser);
 
+const reply = HelperResponse();
 app.all("*", (req, res) => {
-  return reply.success(req, res, "Hello world!");
+  return reply.notFound(req, res, "invalid route");
 });
 
 process.env.PORT = process.env.PORT || 3000;

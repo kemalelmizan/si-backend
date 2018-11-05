@@ -36,8 +36,20 @@ module.exports = client => {
       return reply.badRequest(req, res, "invalid parameter id");
 
     try {
-      const user = await modelProduct.getProduct("id", req.params.id);
-      return reply.success(req, res, user);
+      const product = await modelProduct.getProduct("id", req.params.id);
+      return reply.success(req, res, product);
+    } catch (e) {
+      return reply.error(req, res, e);
+    }
+  };
+
+  // postProduct
+  module.postProduct = async (req, res) => {
+    // TODO: validate body input
+
+    try {
+      const product = await modelProduct.insertProduct(req.body);
+      return reply.created(req, res, product);
     } catch (e) {
       return reply.error(req, res, e);
     }

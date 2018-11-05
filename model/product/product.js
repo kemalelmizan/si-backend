@@ -30,7 +30,7 @@ module.exports = client => {
     return products.rows;
   };
 
-  // getProducts
+  // getProduct
   module.getProduct = async (by, parameter) => {
     let product;
     switch (by) {
@@ -41,6 +41,22 @@ module.exports = client => {
         );
         return product.rows[0];
     }
+  };
+
+  // insertProduct
+  module.insertProduct = async body => {
+    const product = await client.query(
+      "INSERT INTO products (name, description, image_url, category, price, discounted_price) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
+      [
+        body.name,
+        body.description,
+        body.image_url,
+        body.category,
+        body.price,
+        body.discounted_price
+      ]
+    );
+    return product.rows[0];
   };
 
   return module;

@@ -11,38 +11,37 @@ module.exports = client => {
   let module = {};
 
   module.isAllowed = (role, module, write = false) => {
+    let access;
     switch (role) {
       case "admin":
-        if (write) return AdminAccess.write.includes(module) ? true : false;
-        else return AdminAccess.read.includes(module) ? true : false;
+        access = AdminAccess;
+        break;
       case "seller":
-        if (write) return SellerAccess.write.includes(module) ? true : false;
-        else return SellerAccess.read.includes(module) ? true : false;
+        access = SellerAccess;
+        break;
       case "buyer":
-        if (write) return BuyerAccess.write.includes(module) ? true : false;
-        else return BuyerAccess.read.includes(module) ? true : false;
+        access = BuyerAccess;
+        break;
     }
+    if (write) return access.write.includes(module) ? true : false;
+    else return access.read.includes(module) ? true : false;
+  };
+
+  const mapURLtoModuleName = url => {
+    // add 'es' or irregular plurals here for exception
+    return url.split("/")[1].slice(-1) === "s"
+      ? url.split("/")[1].substr(0, url.split("/")[1].length - 1)
+      : url.split("/")[1];
   };
 
   // Validate module access rights
   module.checkAccess = async (req, res, next) => {
-    const urlToModuleMapping = {
-      users: "user",
-      user: "user",
-      stores: "store",
-      store: "store",
-      carts: "cart",
-      cart: "cart",
-      orders: "order",
-      order: "order",
-      products: "product",
-      product: "product"
-    };
     const role = await modelUser.getRole("email", req.headers.user_email);
+    req.role = role;
     if (
       !module.isAllowed(
         role,
-        urlToModuleMapping[req.url.split("/")[1]],
+        mapURLtoModuleName(req.url),
         ["POST", "PUT", "PATCH", "DELETE"].includes(req.method)
       )
     ) {
