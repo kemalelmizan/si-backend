@@ -96,7 +96,7 @@
 #### Create User (POST): 
 ```
 curl -X POST \
-  http://localhost:3000/product \
+  http://localhost:3000/user \
   -H 'Authorization: abc' \
   -H 'Content-Type: application/json' \
   -H 'access_token: xxx' \
@@ -114,7 +114,7 @@ curl -X POST \
 ##### Users `/:page/:items_per_page`
 ```
 curl -X GET \
-  http://localhost:3000/products/1/10 \
+  http://localhost:3000/user/1/10 \
   -H 'Authorization: abc' \
   -H 'access_token: xxx' \
   -H 'cache-control: no-cache' \
@@ -123,7 +123,7 @@ curl -X GET \
 ##### User `/:id`
 ```
 curl -X GET \
-  http://localhost:3000/product/1 \
+  http://localhost:3000/user/1 \
   -H 'Authorization: abc' \
   -H 'access_token: xxx' \
   -H 'cache-control: no-cache' \
@@ -132,7 +132,7 @@ curl -X GET \
 #### Update User (PATCH)
 ```
 curl -X PATCH \
-  http://localhost:3000/product/4 \
+  http://localhost:3000/user/4 \
   -H 'Authorization: abc' \
   -H 'Content-Type: application/json' \
   -H 'access_token: xxx' \
@@ -149,7 +149,7 @@ curl -X PATCH \
 #### Delete User (DELETE) 
 ```
 curl -X DELETE \
-  http://localhost:3000/product/4 \
+  http://localhost:3000/user/4 \
   -H 'Authorization: abc' \
   -H 'Content-Type: application/json' \
   -H 'access_token: xxx' \
