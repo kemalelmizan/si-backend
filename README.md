@@ -84,6 +84,7 @@
 1. Add `controller/auth/api.js` for `API_TOKEN` validation
 1. Separate `controller/auth/user.js` and `model/auth/user.js`
 1. Add `controller/auth/access.js` to validate module access rights
+1. Set environment variables in postman for easy access, add `host`, `API_TOKEN`, `user_email` and `access_token`
 
 ## Add module `users`
 
