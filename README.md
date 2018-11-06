@@ -80,6 +80,7 @@
 1. Add folders according to folder structure
 1. Restructure `index.js` into corresponding `controller`s and `model`s
 1. Add `controller/helper/response.js` to wrap the response
+1. Add `controller/helper/validation.js` for validation libraries
 1. Add `controller/access/admin.js`, `buyer.js` and `seller.js` for access control matrix
 1. Add `controller/auth/api.js` for `API_TOKEN` validation
 1. Separate `controller/auth/user.js` and `model/auth/user.js`
