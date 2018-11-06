@@ -7,21 +7,25 @@ module.exports = client => {
 
   let module = {};
 
+  module.generateToken = size => {
+    return Array(size)
+      .fill(0)
+      .map(() =>
+        Math.random()
+          .toString(36)
+          .charAt(2)
+      )
+      .join("");
+  };
+
   // User Authorization
   // Populating empty tokens
   module.populate = async () => {
     const users = await modelAuthUser.getUsersWithEmptyAccessTokens();
     users.map(async row => {
-      const token64 = Array(64)
-        .fill(0)
-        .map(() =>
-          Math.random()
-            .toString(36)
-            .charAt(2)
-        )
-        .join("");
+      const token64 = module.generateToken(64);
       try {
-        const createdToken = await modelAuthUser.fillToken(token64, row.id);
+        await modelAuthUser.fillToken(token64, row.id);
         console.log(`Populated token for userId:${row.id}`);
       } catch (e) {
         console.error(e);

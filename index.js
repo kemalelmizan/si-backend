@@ -41,6 +41,9 @@ app.delete("/product/:id", product.deleteProduct);
 const user = User(main_db);
 app.get("/users/:page/:items_per_page", user.getUsers);
 app.get("/user/:id", user.getUser);
+app.post("/user", user.postUser);
+app.patch("/user/:id", user.patchUser);
+app.delete("/user/:id", user.deleteUser);
 
 const reply = HelperResponse();
 app.all("*", (req, res) => {

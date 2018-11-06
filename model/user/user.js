@@ -43,5 +43,32 @@ module.exports = client => {
     }
   };
 
+  // insertUser
+  module.insertUser = async body => {
+    const user = await client.query(
+      "INSERT INTO users (username, firstname, lastname, email, role) VALUES ($1, $2, $3, $4, $5) RETURNING id, username, firstname, lastname, email, role, created_at, updated_at;",
+      [body.username, body.firstname, body.lastname, body.email, body.role]
+    );
+    return user.rows[0];
+  };
+
+  // updateUser
+  module.updateUser = async (id, body) => {
+    const user = await client.query(
+      `UPDATE users SET username=$1, firstname=$2, lastname=$3, email=$4, role=$5, updated_at=NOW() WHERE id=$6 RETURNING id, username, firstname, lastname, email, role, created_at, updated_at;`,
+      [body.username, body.firstname, body.lastname, body.email, body.role, id]
+    );
+    return user.rows[0];
+  };
+
+  // deleteUser
+  module.deleteUser = async id => {
+    const user = await client.query(
+      `DELETE FROM users WHERE id=$1 RETURNING id, username, firstname, lastname, email, role, created_at, updated_at;`,
+      [id]
+    );
+    return user.rows[0];
+  };
+
   return module;
 };
