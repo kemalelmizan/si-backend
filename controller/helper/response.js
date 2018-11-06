@@ -2,7 +2,14 @@ module.exports = () => {
   let module = {};
 
   module.success = (req, res, data) => {
-    console.log('200', req.role, req.method, req.url, JSON.stringify(req.headers));
+    console.log(
+      "200",
+      req.role,
+      req.method,
+      req.url,
+      JSON.stringify(req.headers),
+      JSON.stringify(req.body)
+    );
     if (!res.headersSent) {
       res.header("Content-Type", "application/json");
       res.status(200);
@@ -11,7 +18,14 @@ module.exports = () => {
   };
 
   module.created = (req, res, data) => {
-    console.log('201', req.role, req.method, req.url, JSON.stringify(req.headers));
+    console.log(
+      "201",
+      req.role,
+      req.method,
+      req.url,
+      JSON.stringify(req.headers),
+      JSON.stringify(req.body)
+    );
     if (!res.headersSent) {
       res.header("Content-Type", "application/json");
       res.status(201);
@@ -20,7 +34,15 @@ module.exports = () => {
   };
 
   module.error = (req, res, e) => {
-    console.log('500', e, req.role, req.method, req.url, JSON.stringify(req.headers));
+    console.log(
+      "500",
+      e,
+      req.role,
+      req.method,
+      req.url,
+      JSON.stringify(req.headers),
+      JSON.stringify(req.body)
+    );
     if (!res.headersSent) {
       res.status(500);
       return res.json({ error: "Internal server error" });
@@ -28,7 +50,15 @@ module.exports = () => {
   };
 
   module.unauthorized = (req, res, reason = "") => {
-    console.log('401', reason, req.role, req.method, req.url, JSON.stringify(req.headers));
+    console.log(
+      "401",
+      reason,
+      req.role,
+      req.method,
+      req.url,
+      JSON.stringify(req.headers),
+      JSON.stringify(req.body)
+    );
     if (!res.headersSent) {
       res.status(401);
       return res.json({ error: "Unauthorized" });
@@ -36,7 +66,15 @@ module.exports = () => {
   };
 
   module.badRequest = (req, res, reason = "") => {
-    console.log('400', reason, req.role, req.method, req.url, JSON.stringify(req.headers));
+    console.log(
+      "400",
+      reason,
+      req.role,
+      req.method,
+      req.url,
+      JSON.stringify(req.headers),
+      JSON.stringify(req.body)
+    );
     if (!res.headersSent) {
       res.status(400);
       return res.json({ error: "Bad request" });
@@ -44,7 +82,15 @@ module.exports = () => {
   };
 
   module.notFound = (req, res, reason = "") => {
-    console.log('404', reason, req.role, req.method, req.url, JSON.stringify(req.headers));
+    console.log(
+      "404",
+      reason,
+      req.role,
+      req.method,
+      req.url,
+      JSON.stringify(req.headers),
+      JSON.stringify(req.body)
+    );
     if (!res.headersSent) {
       res.status(404);
       return res.json({ error: "Not found" });

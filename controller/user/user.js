@@ -2,6 +2,7 @@ const ModelUser = require("./../../model/user/user");
 const ModelAuthUser = require("./../../model/auth/user");
 
 const HelperResponse = require("./../helper/response");
+const HelperValidation = require("./../helper/validation");
 const AuthUser = require("./../auth/user");
 
 module.exports = client => {
@@ -9,9 +10,18 @@ module.exports = client => {
   const modelAuthUser = ModelAuthUser(client);
 
   const reply = HelperResponse();
+  const validate = HelperValidation();
   const authUser = AuthUser(client);
 
   let module = {};
+
+  module.mandatoryFields = [
+    "username",
+    "firstname",
+    "lastname",
+    "email",
+    "role"
+  ];
 
   // getUsers
   module.getUsers = async (req, res) => {
@@ -53,7 +63,9 @@ module.exports = client => {
 
   // postUser
   module.postUser = async (req, res) => {
-    // TODO: validate body input
+    if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
+      return reply.badRequest(req, res, "incomplete req.body fields");
+
     try {
       const user = await modelUser.insertUser(req.body);
 
@@ -71,7 +83,9 @@ module.exports = client => {
     req.params.id = parseInt(req.params.id);
     if (req.params.id <= 0)
       return reply.badRequest(req, res, "invalid parameter id");
-    // TODO: validate body input
+
+    if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
+      return reply.badRequest(req, res, "incomplete req.body fields");
 
     try {
       const user = await modelUser.updateUser(req.params.id, req.body);
@@ -86,7 +100,6 @@ module.exports = client => {
     req.params.id = parseInt(req.params.id);
     if (req.params.id <= 0)
       return reply.badRequest(req, res, "invalid parameter id");
-    // TODO: validate body input
 
     try {
       const user = await modelUser.deleteUser(req.params.id);

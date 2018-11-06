@@ -1,11 +1,22 @@
 const ModelProduct = require("./../../model/product/product");
 const HelperResponse = require("./../helper/response");
+const HelperValidation = require("./../helper/validation");
 
 module.exports = client => {
   const reply = HelperResponse();
+  const validate = HelperValidation();
   const modelProduct = ModelProduct(client);
 
   let module = {};
+
+  module.mandatoryFields = [
+    "name",
+    "description",
+    "image_url",
+    "category",
+    "price",
+    "discounted_price"
+  ];
 
   // getProducts
   module.getProducts = async (req, res) => {
@@ -47,7 +58,8 @@ module.exports = client => {
 
   // postProduct
   module.postProduct = async (req, res) => {
-    // TODO: validate body input
+    if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
+      return reply.badRequest(req, res, "incomplete req.body fields");
 
     try {
       const product = await modelProduct.insertProduct(req.body);
@@ -62,7 +74,9 @@ module.exports = client => {
     req.params.id = parseInt(req.params.id);
     if (req.params.id <= 0)
       return reply.badRequest(req, res, "invalid parameter id");
-    // TODO: validate body input
+  
+    if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
+      return reply.badRequest(req, res, "incomplete req.body fields");
 
     try {
       const product = await modelProduct.updateProduct(req.params.id, req.body);
