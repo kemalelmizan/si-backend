@@ -19,7 +19,7 @@ module.exports = client => {
       );
 
     try {
-      const users = await modelUser.getUsers(
+      const users = await modelUser.selectUsers(
         req.params.items_per_page,
         req.params.page
       );
@@ -36,7 +36,7 @@ module.exports = client => {
       return reply.badRequest(req, res, "invalid parameter id");
 
     try {
-      const user = await modelUser.getUser("id", req.params.id);
+      const user = await modelUser.selectUser("id", req.params.id);
       return reply.success(req, res, user);
     } catch (e) {
       return reply.error(req, res, e);

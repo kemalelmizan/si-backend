@@ -56,7 +56,7 @@
 1. `docker -v`
 1. `docker run -p 5432:5432 --name si-backend -e POSTGRES_PASSWORD=sibackend -d postgres`
 1. `docker ps -a`
-1. `docker start si-backend`
+1. to start container: `docker start si-backend`
 1. Add `dev` environment in `database.json`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres npm start`
@@ -79,44 +79,66 @@
 1. [Single Responsibility Principle](https://en.wikipedia.org/wiki/Single_responsibility_principle)
 1. Add folders according to folder structure
 1. Restructure `index.js` into corresponding `controller`s and `model`s
+1. Add `controller/helper/response.js` to wrap the response
+1. Add `controller/access/admin.js`, `buyer.js` and `seller.js` for access control matrix
+1. Add `controller/auth/api.js` for `API_TOKEN` validation
+1. Separate `controller/auth/user.js` and `model/auth/user.js`
+1. Add `controller/auth/access.js` to validate module access rights
+1. Separate `controller/user/user.js` and `model/user/user.js`
+1. Add `model/user/user.js` modules: `module.selectUsers`, `module.selectUser`, `module.insertUser`, `module.updateUser` and `module.deleteUser`
+1. Add `controller/user/user.js` modules: `module.getUsers`, `module.getUser`, `module.postUser`, `module.patchUser` and `module.deleteUser`
+1. Separate `controller/product/product.js` and `model/product/product.js`
+1. Add `model/product/product.js` modules: `module.selectProducts`, `module.selectProduct`, `module.insertProduct`, `module.updateProduct` and `module.deleteProduct`
+1. Add `controller/product/product.js` modules: `module.getProducts`, `module.getProduct`, `module.postProduct`, `module.patchProduct` and `module.deleteProduct` in controller
 
-## Add table `stores`
+## Add module `stores`
+
 1. `db-migrate create stores --sql-file -e dev`
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `db-migrate up -e dev`
+1. Create model in `model/store/store.js`
+1. Add `model/store/store.js` modules: `module.selectStores`, `module.selectStore`, `module.insertStore`, `module.updateStore` and `module.deleteStore`
+1. Create controller in `controller/store/store.js`
+1. Add `controller/store/store.js` modules: `module.getStores`, `module.getStore`, `module.postStore`, `module.patchStore` and `module.deleteStore`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
-## Add table `stores_products`
+## Add module `stores_products`
+
 1. `db-migrate create stores_products --sql-file -e dev`
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
-## Add table `carts`
+## Add module `carts`
+
 1. `db-migrate create carts --sql-file -e dev`
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
-## Add table `orders`
+## Add module `orders`
+
 1. `db-migrate create orders --sql-file -e dev`
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
-## Add table `carts_products`
+## Add module `carts_products`
+
 1. `db-migrate create carts_products --sql-file -e dev`
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
-## Add table `orders_products`
+## Add module `orders_products`
+
 1. `db-migrate create orders_products --sql-file -e dev`
 1. Fill in SQL up and down script in `./migrations/sqls`
 1. `db-migrate up -e dev`
 1. `DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres API_TOKEN=abc npm start`
 
 ## To be covered in next sessions
+
 1. [ ] unit tests and test coverage
 1. [ ] caching using redis
 1. [ ] security: penetration testing, injection, OWASP

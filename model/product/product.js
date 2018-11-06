@@ -20,8 +20,8 @@ module.exports = client => {
     }
   };
 
-  // getProducts
-  module.getProducts = async (items_per_page, page) => {
+  // selectProducts
+  module.selectProducts = async (items_per_page, page) => {
     const offset = (page - 1) * items_per_page || 0;
     const products = await client.query(
       "SELECT * FROM products ORDER BY id LIMIT ($1) OFFSET ($2);",
@@ -30,8 +30,8 @@ module.exports = client => {
     return products.rows;
   };
 
-  // getProduct
-  module.getProduct = async (by, parameter) => {
+  // selectProduct
+  module.selectProduct = async (by, parameter) => {
     let product;
     switch (by) {
       case "id":

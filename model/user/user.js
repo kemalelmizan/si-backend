@@ -20,8 +20,8 @@ module.exports = client => {
     }
   };
 
-  // getUsers
-  module.getUsers = async (items_per_page, page) => {
+  // selectUsers
+  module.selectUsers = async (items_per_page, page) => {
     const offset = (page - 1) * items_per_page || 0;
     const users = await client.query(
       "SELECT id, username, firstname, lastname, email, role, created_at, updated_at FROM users ORDER BY id LIMIT ($1) OFFSET ($2);",
@@ -30,8 +30,8 @@ module.exports = client => {
     return users.rows;
   };
 
-  // getUsers
-  module.getUser = async (by, parameter) => {
+  // selectUser
+  module.selectUser = async (by, parameter) => {
     let user;
     switch (by) {
       case "id":

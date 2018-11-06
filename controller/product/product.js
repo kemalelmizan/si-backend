@@ -19,7 +19,7 @@ module.exports = client => {
       );
 
     try {
-      const products = await modelProduct.getProducts(
+      const products = await modelProduct.selectProducts(
         req.params.items_per_page,
         req.params.page
       );
@@ -36,7 +36,7 @@ module.exports = client => {
       return reply.badRequest(req, res, "invalid parameter id");
 
     try {
-      const product = await modelProduct.getProduct("id", req.params.id);
+      const product = await modelProduct.selectProduct("id", req.params.id);
       return reply.success(req, res, product);
     } catch (e) {
       return reply.error(req, res, e);
