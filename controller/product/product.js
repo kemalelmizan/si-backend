@@ -37,7 +37,9 @@ module.exports = client => {
 
     try {
       const product = await modelProduct.selectProduct("id", req.params.id);
-      return reply.success(req, res, product);
+      if (product === undefined)
+        return reply.notFound(req, res, "product not found in db");
+      else return reply.success(req, res, product);
     } catch (e) {
       return reply.error(req, res, e);
     }

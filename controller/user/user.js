@@ -43,7 +43,9 @@ module.exports = client => {
 
     try {
       const user = await modelUser.selectUser("id", req.params.id);
-      return reply.success(req, res, user);
+      if (user === undefined)
+        return reply.notFound(req, res, "user not found in db");
+      else return reply.success(req, res, user);
     } catch (e) {
       return reply.error(req, res, e);
     }
