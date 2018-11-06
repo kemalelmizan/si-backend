@@ -98,8 +98,9 @@
 ## To be covered in next sessions
 
 1. [ ] unit tests and test coverage
-1. [ ] caching using redis
 1. [ ] third party libraries and APIs: file upload, nodemailer
+1. [ ] timeout and circuit breaker handling
+1. [ ] caching using redis
 1. [ ] security: penetration testing, injection, OWASP
 1. [ ] documentation: swagger
 
