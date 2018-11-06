@@ -15,6 +15,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+app.get('/robots.txt', (req, res) => res.status(204));
+
 app.use(AuthAPI);
 
 const main_db = new Client({
@@ -44,9 +47,6 @@ app.get("/user/:id", user.getUser);
 app.post("/user", user.postUser);
 app.patch("/user/:id", user.patchUser);
 app.delete("/user/:id", user.deleteUser);
-
-app.get('/favicon.ico', (req, res) => res.status(204));
-app.get('/robots.txt', (req, res) => res.status(204));
 
 const reply = HelperResponse();
 app.all("*", (req, res) => {
