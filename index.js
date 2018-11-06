@@ -45,6 +45,9 @@ app.post("/user", user.postUser);
 app.patch("/user/:id", user.patchUser);
 app.delete("/user/:id", user.deleteUser);
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+app.get('/robots.txt', (req, res) => res.status(204));
+
 const reply = HelperResponse();
 app.all("*", (req, res) => {
   return reply.notFound(req, res, "invalid route");
