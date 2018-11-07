@@ -95,10 +95,15 @@
 - [Cart](docs/cart.md)
 - [Order](docs/order.md)
 
+## Homework for next session
+
+- Finish CRUD for each modules (model, controller and route)
+- Create all requests template for CRUD in postman
+
 ## To be covered in next sessions
 
-1. [ ] unit tests and test coverage
 1. [ ] third party libraries and APIs: file upload, nodemailer
+1. [ ] unit tests and test coverage
 1. [ ] timeout and circuit breaker handling
 1. [ ] caching using redis
 1. [ ] security: penetration testing, injection, OWASP
