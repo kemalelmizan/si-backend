@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { Client } = require("pg");
+const path = require("path");
 
 const AuthAPI = require("./controller/auth/api");
 const AuthUser = require("./controller/auth/user");
@@ -19,9 +20,10 @@ app.use("/favicon.ico", (req, res) => {
   res.status(204);
   return res.end();
 });
+
 app.use("/robots.txt", (req, res) => {
-  res.status(204);
-  return res.end();
+  res.status(200);
+  return res.sendFile(path.join(__dirname, "public", "robots.txt"));
 });
 
 app.use(AuthAPI);
