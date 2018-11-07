@@ -19,7 +19,10 @@ app.use("/favicon.ico", (req, res) => {
   res.status(204);
   return res.end();
 });
-app.use("/robots.txt", (req, res) => res.status(204));
+app.use("/robots.txt", (req, res) => {
+  res.status(204);
+  return res.end();
+});
 
 app.use(AuthAPI);
 
