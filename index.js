@@ -15,6 +15,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/favicon.ico", (req, res) => res.status(204));
+app.use("/robots.txt", (req, res) => res.status(204));
+
 app.use(AuthAPI);
 
 const main_db = new Client({
