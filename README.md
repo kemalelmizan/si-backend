@@ -103,7 +103,8 @@
 ## To be covered in next sessions
 
 1. [ ] unit tests and test coverage
-1. [ ] third party libraries and APIs: file upload, nodemailer
+1. [ ] third party libraries: file upload, nodemailer
+1. [ ] third party APIs: mailgun, user ID APIs https://github.com/sahat/hackathon-starter#obtaining-api-keys
 1. [ ] caching using redis
 1. [ ] timeout and circuit breaker handling
 1. [ ] security: penetration testing, injection, OWASP
