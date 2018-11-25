@@ -42,6 +42,12 @@ app.use(authUser.tokenAuth);
 const authAccess = AuthAccess(main_db);
 app.use(authAccess.checkAccess);
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 const product = Product(main_db);
 app.get("/products/:page/:items_per_page", product.getProducts);
 app.get("/product/:id", product.getProduct);
