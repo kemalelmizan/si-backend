@@ -32,10 +32,7 @@ app.use(function(req, res, next) {
     "Access-Control-Allow-Methods",
     "GET,PUT,POST,PATCH,DELETE,OPTIONS"
   );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "*"
-  );
+  res.header("Access-Control-Allow-Headers", "*");
   if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
