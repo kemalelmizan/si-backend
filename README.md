@@ -90,6 +90,18 @@
 ## Passport & Authentication
 
 1. `npm install --save dotenv`
+1. Create `.env` file
+1. Add following values to `.env` file
+```
+SESSION_SECRET=abcd
+PORT=8080
+DATABASE_URL=postgres://postgres:sibackend@localhost:5432/postgres
+SSL=false
+API_TOKEN=abc
+GOOGLE_KEY=xxx.apps.googleusercontent.com
+GOOGLE_SECRET=xxx
+CLIENT_ORIGIN=http://localhost:3000
+```
 1. `npm install --save passport`
 1. `npm install --save passport-google-oauth`
 1. `const googleAuth = passport.authenticate('google', { scope: ['profile'] })` in `index.js`
@@ -105,6 +117,13 @@ app.get("/google/callback", googleAuth, (req, res) => {
   };
   io.in(req.session.socketId).emit("google", user);
   res.end();
+});
+```
+1. Setup socket
+```
+app.use((req, res, next) => {
+  req.session.socketId = req.query.socketId;
+  next();
 });
 ```
 
