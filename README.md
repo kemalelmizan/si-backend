@@ -87,6 +87,27 @@
 1. Add `controller/auth/access.js` to validate module access rights
 1. Set environment variables in postman for easy access, add `host`, `API_TOKEN`, `user_email` and `access_token`
 
+## Passport & Authentication
+
+1. `npm install --save dotenv`
+1. `npm install --save passport`
+1. `npm install --save passport-google-oauth`
+1. `const googleAuth = passport.authenticate('google', { scope: ['profile'] })` in `index.js`
+1. Route triggered by the React client
+   `app.get('/google', googleAuth)`
+1. Routes that are triggered by callbacks from OAuth providers once the user has authenticated successfully
+```
+app.get("/google/callback", googleAuth, (req, res) => {
+  const io = req.app.get("io");
+  const user = {
+    name: req.user.displayName,
+    photo: req.user.photos[0].value.replace(/sz=50/gi, "sz=250")
+  };
+  io.in(req.session.socketId).emit("google", user);
+  res.end();
+});
+```
+
 ## Module Specific Setup
 
 - [User](docs/user.md)
@@ -118,3 +139,4 @@
 1. [Express API](https://expressjs.com/en/4x/api.html)
 1. [Express middleware](https://expressjs.com/en/guide/using-middleware.html)
 1. [Docker Cheat Sheet](https://github.com/wsargent/docker-cheat-sheet)
+````
