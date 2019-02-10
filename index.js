@@ -82,14 +82,6 @@ app.use(
   })
 );
 
-// This custom middleware allows us to attach the socket id to the session
-// With that socket id we can send back the right user info to the right
-// socket
-app.use((req, res, next) => {
-  req.session.socketId = req.query.socketId;
-  next();
-});
-
 // so that we can access them later in the controller
 server = http.createServer(app)
 const io = socketio(server)
@@ -97,16 +89,23 @@ app.set('io', io)
 app.get('/wake-up', (req, res) => res.send('👍'))
 
 const googleAuth = passport.authenticate("google", { scope: ["profile"] });
-app.get("/google", googleAuth);
 app.get("/google/callback", googleAuth, (req, res) => {
   const io = req.app.get("io");
   const user = {
     name: req.user.displayName,
     photo: req.user.photos[0].value.replace(/sz=50/gi, "sz=250")
   };
+  console.log(user)
   io.in(req.session.socketId).emit("google", user);
   res.end();
 });
+
+app.use((req, res, next) => {
+  req.session.socketId = req.query.socketId;
+  next();
+});
+
+app.get("/google", googleAuth);
 
 // 1. login with g+ oauth
 // https://codeburst.io/react-authentication-with-twitter-google-facebook-and-github-862d59583105
