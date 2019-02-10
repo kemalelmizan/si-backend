@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const http = require('http')
+const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
 const { Client } = require("pg");
@@ -8,7 +8,7 @@ const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
 const cors = require("cors");
-const socketio = require('socket.io')
+const socketio = require("socket.io");
 
 const AuthAPI = require("./controller/auth/api");
 const AuthUser = require("./controller/auth/user");
@@ -83,20 +83,32 @@ app.use(
 );
 
 // so that we can access them later in the controller
-server = http.createServer(app)
-const io = socketio(server)
-app.set('io', io)
-app.get('/wake-up', (req, res) => res.send('👍'))
+server = http.createServer(app);
+const io = socketio(server);
+app.set("io", io);
+app.get("/wake-up", (req, res) => res.send("👍"));
 
 const googleAuth = passport.authenticate("google", { scope: ["profile"] });
+const githubAuth = passport.authenticate("github");
+
 app.get("/google/callback", googleAuth, (req, res) => {
   const io = req.app.get("io");
   const user = {
     name: req.user.displayName,
     photo: req.user.photos[0].value.replace(/sz=50/gi, "sz=250")
   };
-  console.log(user)
+  console.log(user);
   io.in(req.session.socketId).emit("google", user);
+  res.end();
+});
+
+app.get("/github/callback", githubAuth, (req, res) => {
+  const io = req.app.get("io");
+  const user = {
+    name: req.user.username,
+    photo: req.user.photos[0].value
+  };
+  io.in(req.session.socketId).emit("github", user);
   res.end();
 });
 
@@ -106,6 +118,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/google", googleAuth);
+app.get("/github", githubAuth);
 
 // 1. login with g+ oauth
 // https://codeburst.io/react-authentication-with-twitter-google-facebook-and-github-862d59583105
