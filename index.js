@@ -108,6 +108,7 @@ app.get("/github/callback", githubAuth, (req, res) => {
     name: req.user.username,
     photo: req.user.photos[0].value
   };
+  console.log(req.user)
   io.in(req.session.socketId).emit("github", user);
   res.end();
 });
