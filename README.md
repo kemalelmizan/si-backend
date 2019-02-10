@@ -130,6 +130,7 @@ app.use((req, res, next) => {
   next();
 });
 ```
+1. Clone `https://github.com/funador/react-auth-client` for frontend test
 
 ## Module Specific Setup
 
