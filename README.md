@@ -130,7 +130,7 @@ app.use((req, res, next) => {
   next();
 });
 ```
-1. Clone `https://github.com/funador/react-auth-client` for frontend test
+1. Clone `https://github.com/funador/react-auth-client` for frontend test, change `API_URL` in `config.js` to `http://localhost:8080`
 
 ## Module Specific Setup
 
