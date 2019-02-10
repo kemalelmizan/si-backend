@@ -91,6 +91,10 @@
 
 1. `npm install --save dotenv`
 1. Create `.env` file
+1. Register Google API Credential to get Client ID `GOOGLE_KEY` and Client secret `GOOGLE_SECRET` here
+```
+https://console.developers.google.com/apis/credentials
+```
 1. Add following values to `.env` file
 ```
 SESSION_SECRET=abcd
