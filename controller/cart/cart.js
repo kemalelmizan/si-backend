@@ -9,54 +9,29 @@ module.exports = client => {
 
   let module = {};
 
-  module.mandatoryFields = [
-    "product_ids",
-  ];
+  module.mandatoryFields = ["product_id", "user_id", "quantity"];
 
-  // postCart
-  module.postCart = async (req, res) => {
+  // addProductToCart
+  module.addProductToCart = async (req, res) => {
     if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
       return reply.badRequest(req, res, "incomplete req.body fields");
 
     try {
-
       // TODO: add commit and rollback
-      const cart = await modelCart.createCart(req.body);
-      await modelCart.insertProductToCart(cart.cart_id, req.body.product_id)
 
-      return reply.created(req, res, product);
-    } catch (e) {
-      return reply.error(req, res, e);
-    }
-  };
+      let existingCart = await modelCart.checkCartExists(req.body.user_id);
 
-  // patchProduct
-  module.patchProduct = async (req, res) => {
-    req.params.id = parseInt(req.params.id);
-    if (req.params.id <= 0)
-      return reply.badRequest(req, res, "invalid parameter id");
-  
-    if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
-      return reply.badRequest(req, res, "incomplete req.body fields");
+      if (existingCart === undefined) {
+        existingCart = await modelCart.createCart(req.body.user_id);
+      }
 
-    try {
-      const product = await modelProduct.updateProduct(req.params.id, req.body);
-      return reply.created(req, res, product);
-    } catch (e) {
-      return reply.error(req, res, e);
-    }
-  };
+      const cart = await modelCart.insertProductToCart(
+        existingCart.id,
+        req.body.product_id,
+        req.body.quantity
+      );
 
-  // deleteProduct
-  module.deleteProduct = async (req, res) => {
-    req.params.id = parseInt(req.params.id);
-    if (req.params.id <= 0)
-      return reply.badRequest(req, res, "invalid parameter id");
-    // TODO: validate body input
-
-    try {
-      const product = await modelProduct.deleteProduct(req.params.id);
-      return reply.created(req, res, product);
+      return reply.created(req, res, cart);
     } catch (e) {
       return reply.error(req, res, e);
     }

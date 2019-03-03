@@ -16,6 +16,7 @@ const AuthAccess = require("./controller/auth/access");
 
 const User = require("./controller/user/user");
 const Product = require("./controller/product/product");
+const Cart = require("./controller/cart/cart");
 
 const HelperResponse = require("./controller/helper/response");
 const passportInit = require("./controller/auth/passport");
@@ -141,6 +142,9 @@ app.get("/user/:id", user.getUser);
 app.post("/user", user.postUser);
 app.patch("/user/:id", user.patchUser);
 app.delete("/user/:id", user.deleteUser);
+
+const cart = Cart(main_db);
+app.post("/addToCart", cart.addProductToCart);
 
 const reply = HelperResponse();
 app.all("*", (req, res) => {

@@ -24,22 +24,31 @@ module.exports = client => {
     }
   };
 
+  // checkCartExists
+  module.checkCartExists = async user_id => {
+    const cart = await client.query(
+      "SELECT id FROM carts WHERE user_id=$1 LIMIT 1;",
+      [user_id]
+    );
+    return cart.rows[0];
+  };
+
   // createCart
-  module.createCart = async body => {
+  module.createCart = async user_id => {
     const product = await client.query(
-      "INSERT INTO carts (user_id) VALUES ($1) RETURNING *;",
-      [body.user]
+      "INSERT INTO carts (user_id) VALUES ($1) RETURNING id;",
+      [user_id]
     );
     return product.rows[0];
   };
 
   // insertProductToCart
-  module.insertProductToCart = async (cart_id, product_id) => {
-    const product = await client.query(
-      "INSERT INTO carts_products (cart_id, product_id) VALUES ($1, $2) RETURNING *;",
-      [cart_id, product_id]
+  module.insertProductToCart = async (cart_id, product_id, quantity) => {
+    const cart = await client.query(
+      "INSERT INTO carts_products (cart_id, product_id, quantity) VALUES ($1, $2, $3) RETURNING *;",
+      [cart_id, product_id, quantity]
     );
-    return product.rows[0];
+    return cart.rows[0];
   };
 
   // deleteProductFromCart

@@ -1,25 +1,6 @@
 module.exports = client => {
   let module = {};
 
-  // getRole
-  module.getRole = async (by, parameter) => {
-    let role;
-    switch (by) {
-      case "id":
-        role = await client.query(
-          "SELECT role FROM products WHERE id=($1) LIMIT 1;",
-          [parameter]
-        );
-        return role.rows[0].role;
-      case "email":
-        role = await client.query(
-          "SELECT role FROM products WHERE email=($1) LIMIT 1;",
-          [parameter]
-        );
-        return role.rows[0].role;
-    }
-  };
-
   // selectProducts
   module.selectProducts = async (items_per_page, page) => {
     const offset = (page - 1) * items_per_page || 0;
