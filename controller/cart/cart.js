@@ -20,6 +20,7 @@ module.exports = client => {
 
     try {
 
+      // TODO: add commit and rollback
       const cart = await modelCart.createCart(req.body);
       await modelCart.insertProductToCart(cart.cart_id, req.body.product_id)
 

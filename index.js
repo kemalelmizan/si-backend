@@ -3,7 +3,7 @@ require("dotenv").config();
 const http = require("http");
 const express = require("express");
 const bodyParser = require("body-parser");
-const { Client } = require("pg");
+const { Client, Pool } = require("pg");
 const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
@@ -56,9 +56,9 @@ app.use(
 
 // app.use(AuthAPI);
 
-const main_db = new Client({
+const main_db = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.SSL || false
+  ssl: process.env.SSL === "true" ? true : false
 });
 
 main_db.connect();
@@ -108,7 +108,7 @@ app.get("/github/callback", githubAuth, (req, res) => {
     name: req.user.username,
     photo: req.user.photos[0].value
   };
-  console.log(req.user)
+  console.log(req.user);
   io.in(req.session.socketId).emit("github", user);
   res.end();
 });
