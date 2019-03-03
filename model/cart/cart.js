@@ -35,11 +35,11 @@ module.exports = client => {
 
   // createCart
   module.createCart = async user_id => {
-    const product = await client.query(
+    const cart = await client.query(
       "INSERT INTO carts (user_id, status) VALUES ($1, 'created') RETURNING id;",
       [user_id]
     );
-    return product.rows[0];
+    return cart.rows[0];
   };
 
   // insertProductToCart
@@ -73,6 +73,15 @@ module.exports = client => {
   module.emptyCart = async cart_id => {
     const cart = await client.query(
       `DELETE FROM carts_products WHERE cart_id=$1 RETURNING *;`,
+      [cart_id]
+    );
+    return cart.rows[0];
+  };
+
+  // checkoutCart
+  module.checkoutCart = async (cart_id) => {
+    const cart = await client.query(
+      "UPDATE carts SET status='ordered' WHERE id=$1 RETURNING *;",
       [cart_id]
     );
     return cart.rows[0];
