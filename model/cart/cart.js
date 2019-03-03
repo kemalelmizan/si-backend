@@ -87,5 +87,14 @@ module.exports = client => {
     return cart.rows[0];
   };
 
+  // getProductsFromCart
+  module.getProductsFromCart = async (cart_id) => {
+    const products = await client.query(
+      "SELECT product_id, quantity FROM carts_products WHERE cart_id=$1;",
+      [cart_id]
+    );
+    return products.rows;
+  }
+
   return module;
 };

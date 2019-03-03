@@ -149,6 +149,7 @@ app.delete("/emptyCart", cart.emptyCart);
 
 const order = Order(main_db);
 app.post("/checkout", order.checkout);
+app.get("/order_details", order.getDetails);
 
 const reply = HelperResponse();
 app.all("*", (req, res) => {

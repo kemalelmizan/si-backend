@@ -66,5 +66,16 @@ module.exports = client => {
     return product.rows[0];
   };
 
+  // getPriceAndQuantityFromCart
+  module.getPriceAndQuantityFromCart = async cart_id => {
+    const product = await client.query(
+      `SELECT p.discounted_price, cp.quantity FROM 
+      carts_products cp INNER JOIN products p 
+      ON cp.product_id=p.id WHERE cp.cart_id=$1;`,
+      [cart_id]
+    );
+    return product.rows;
+  };
+
   return module;
 };
