@@ -45,7 +45,7 @@ module.exports = client => {
   // deleteProductFromCart
   module.deleteProductFromCart = async body => {
     const product = await client.query(
-      "DELETE FROM carts_product WHERE cart_id=$1 AND product_id=$2 RETURNING *;",
+      "DELETE FROM carts_products WHERE cart_id=$1 AND product_id=$2 RETURNING *;",
       [body.user]
     );
     return product.rows[0];
@@ -54,7 +54,7 @@ module.exports = client => {
   // emptyCart
   module.emptyCart = async id => {
     const product = await client.query(
-      `DELETE FROM carts_product WHERE cart_id=$1 RETURNING *;`,
+      `DELETE FROM carts_products WHERE cart_id=$1 RETURNING *;`,
       [id]
     );
     return product.rows[0];
