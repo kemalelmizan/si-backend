@@ -20,8 +20,6 @@ module.exports = client => {
 
   // getProducts
   module.getProducts = async (req, res) => {
-    req.query.items_per_page = parseInt(req.query.items_per_page);
-    req.query.page = parseInt(req.query.page);
     if (req.params.items_per_page < 0 || req.params.items_per_page <= 0)
       return reply.badRequest(
         req,
