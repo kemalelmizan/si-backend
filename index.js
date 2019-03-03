@@ -145,6 +145,8 @@ app.delete("/user/:id", user.deleteUser);
 
 const cart = Cart(main_db);
 app.post("/addToCart", cart.addProductToCart);
+app.post("/updateQuantity", cart.updateQuantityProductToCart);
+app.delete("/emptyCart", cart.emptyCart);
 
 const reply = HelperResponse();
 app.all("*", (req, res) => {

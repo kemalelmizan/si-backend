@@ -51,22 +51,31 @@ module.exports = client => {
     return cart.rows[0];
   };
 
-  // deleteProductFromCart
-  module.deleteProductFromCart = async body => {
-    const product = await client.query(
-      "DELETE FROM carts_products WHERE cart_id=$1 AND product_id=$2 RETURNING *;",
-      [body.user]
+  // updateQuantityProductFromCart
+  module.updateQuantityProductFromCart = async (cart_id, product_id, quantity) => {
+    const cart = await client.query(
+      "UPDATE carts_products SET quantity=$1 WHERE cart_id=$2 AND product_id=$3 RETURNING *;",
+      [quantity, cart_id, product_id]
     );
-    return product.rows[0];
+    return cart.rows[0];
+  };
+
+  // deleteProductFromCart
+  module.deleteProductFromCart = async (cart_id, product_id) => {
+    const cart = await client.query(
+      "DELETE FROM carts_products WHERE cart_id=$1 AND product_id=$2 RETURNING *;",
+      [cart_id, product_id]
+    );
+    return cart.rows[0];
   };
 
   // emptyCart
-  module.emptyCart = async id => {
-    const product = await client.query(
+  module.emptyCart = async cart_id => {
+    const cart = await client.query(
       `DELETE FROM carts_products WHERE cart_id=$1 RETURNING *;`,
-      [id]
+      [cart_id]
     );
-    return product.rows[0];
+    return cart.rows[0];
   };
 
   return module;
