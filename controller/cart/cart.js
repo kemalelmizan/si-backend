@@ -17,8 +17,7 @@ module.exports = client => {
       return reply.badRequest(req, res, "incomplete req.body fields");
 
     try {
-      // TODO: add commit and rollback
-
+      await client.query('BEGIN');
       let existingCart = await modelCart.checkCartExists(req.body.user_id);
 
       if (existingCart === undefined) {
@@ -31,8 +30,11 @@ module.exports = client => {
         req.body.quantity
       );
 
+      await client.query('COMMIT')
       return reply.created(req, res, cart);
     } catch (e) {
+
+      await client.query('ROLLBACK')
       return reply.error(req, res, e);
     }
   };

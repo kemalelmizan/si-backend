@@ -27,7 +27,7 @@ module.exports = client => {
   // checkCartExists
   module.checkCartExists = async user_id => {
     const cart = await client.query(
-      "SELECT id FROM carts WHERE user_id=$1 LIMIT 1;",
+      "SELECT id FROM carts WHERE user_id=$1 AND status <> 'finished' LIMIT 1;",
       [user_id]
     );
     return cart.rows[0];
@@ -36,7 +36,7 @@ module.exports = client => {
   // createCart
   module.createCart = async user_id => {
     const product = await client.query(
-      "INSERT INTO carts (user_id) VALUES ($1) RETURNING id;",
+      "INSERT INTO carts (user_id, status) VALUES ($1, 'created') RETURNING id;",
       [user_id]
     );
     return product.rows[0];
