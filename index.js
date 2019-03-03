@@ -122,10 +122,6 @@ app.use((req, res, next) => {
 app.get("/google", googleAuth);
 app.get("/github", githubAuth);
 
-// 1. login with g+ oauth
-// https://codeburst.io/react-authentication-with-twitter-google-facebook-and-github-862d59583105
-// 2. retrieve email, name, put into redis
-
 // const authAccess = AuthAccess(main_db);
 // app.use(authAccess.checkAccess);
 
@@ -144,6 +140,8 @@ app.patch("/user/:id", user.patchUser);
 app.delete("/user/:id", user.deleteUser);
 
 const cart = Cart(main_db);
+app.get("/carts/:page/:items_per_page", cart.getCarts);
+app.get("/cart/:id", cart.getCart);
 app.post("/addToCart", cart.addProductToCart);
 app.post("/updateQuantity", cart.updateQuantityProductToCart);
 app.delete("/emptyCart", cart.emptyCart);

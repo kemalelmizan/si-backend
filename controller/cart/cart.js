@@ -11,6 +11,41 @@ module.exports = client => {
 
   module.mandatoryFields = ["product_id", "user_id", "quantity"];
 
+  // getCarts
+  module.getCarts = async (req, res) => {
+    if (req.params.items_per_page < 0 || req.params.items_per_page <= 0)
+      return reply.badRequest(
+        req,
+        res,
+        "invalid parameter items_per_page or page"
+      );
+
+    try {
+      const carts = await modelCart.selectCarts(
+        req.params.items_per_page,
+        req.params.page
+      );
+      return reply.success(req, res, carts);
+    } catch (e) {
+      return reply.error(req, res, e);
+    }
+  };
+
+  // getCart
+  module.getCart = async (req, res) => {
+    if (req.params.id <= 0)
+      return reply.badRequest(req, res, "invalid parameter id");
+
+    try {
+      const product = await modelCart.selectCart("id", req.params.id);
+      if (product === undefined)
+        return reply.notFound(req, res, "product not found in db");
+      else return reply.success(req, res, product);
+    } catch (e) {
+      return reply.error(req, res, e);
+    }
+  };
+
   // addProductToCart
   module.addProductToCart = async (req, res) => {
     if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
