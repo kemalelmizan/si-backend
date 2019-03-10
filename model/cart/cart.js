@@ -51,8 +51,21 @@ module.exports = client => {
     return cart.rows[0];
   };
 
+  // checkProductCartExists
+  module.checkProductCartExists = async (cart_id, product_id) => {
+    const cart = await client.query(
+      "select 1 from carts_products where cart_id=$1 and product_id=$2;",
+      [cart_id, product_id]
+    );
+    return cart.rows.length;
+  };
+
   // updateQuantityProductFromCart
-  module.updateQuantityProductFromCart = async (cart_id, product_id, quantity) => {
+  module.updateQuantityProductFromCart = async (
+    cart_id,
+    product_id,
+    quantity
+  ) => {
     const cart = await client.query(
       "UPDATE carts_products SET quantity=$1 WHERE cart_id=$2 AND product_id=$3 RETURNING *;",
       [quantity, cart_id, product_id]
@@ -79,7 +92,7 @@ module.exports = client => {
   };
 
   // checkoutCart
-  module.checkoutCart = async (cart_id) => {
+  module.checkoutCart = async cart_id => {
     const cart = await client.query(
       "UPDATE carts SET status='ordered' WHERE id=$1 RETURNING *;",
       [cart_id]
@@ -88,13 +101,22 @@ module.exports = client => {
   };
 
   // getProductsFromCart
-  module.getProductsFromCart = async (cart_id) => {
+  module.getProductsFromCart = async cart_id => {
     const products = await client.query(
       "SELECT product_id, quantity FROM carts_products WHERE cart_id=$1;",
       [cart_id]
     );
     return products.rows;
-  }
+  };
+
+  // getCartDetailsFromUserId
+  module.getCartDetailsFromUserId = async user_id => {
+    const products = await client.query(
+      "select p.*, cp.quantity from carts c left join carts_products cp on c.id=cp.cart_id left join products p on cp.product_id=p.id where c.user_id=$1;",
+      [user_id]
+    );
+    return products.rows;
+  };
 
   return module;
 };

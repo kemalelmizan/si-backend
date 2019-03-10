@@ -46,6 +46,21 @@ module.exports = client => {
     }
   };
 
+  // getCartDetails
+  module.getCartDetails = async (req, res) => {
+    if (req.params.id <= 0)
+      return reply.badRequest(req, res, "invalid parameter id");
+
+    try {
+      const product = await modelCart.getCartDetailsFromUserId(req.params.id);
+      if (product === undefined)
+        return reply.notFound(req, res, "product not found in db");
+      else return reply.success(req, res, product);
+    } catch (e) {
+      return reply.error(req, res, e);
+    }
+  };
+
   // addProductToCart
   module.addProductToCart = async (req, res) => {
     if (!validate.allMandatoryFieldsExists(req.body, module.mandatoryFields))
@@ -59,11 +74,31 @@ module.exports = client => {
         existingCart = await modelCart.createCart(req.body.user_id);
       }
 
-      const cart = await modelCart.insertProductToCart(
-        existingCart.id,
-        req.body.product_id,
-        req.body.quantity
-      );
+      // check if product exists in cart
+      const cartProductExists =
+        (await modelCart.checkProductCartExists(
+          existingCart.id,
+          req.body.product_id
+        )) === 1
+          ? true
+          : false;
+      console.log(cartProductExists);
+      let cart;
+      if (cartProductExists) {
+        // update
+        cart = await modelCart.updateQuantityProductFromCart(
+          existingCart.id,
+          req.body.product_id,
+          req.body.quantity
+        );
+      } else {
+        // insert
+        cart = await modelCart.insertProductToCart(
+          existingCart.id,
+          req.body.product_id,
+          req.body.quantity
+        );
+      }
 
       await client.query("COMMIT");
       return reply.created(req, res, cart);

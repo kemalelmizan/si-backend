@@ -143,13 +143,14 @@ app.delete("/user/:id", user.deleteUser);
 const cart = Cart(main_db);
 app.get("/carts/:page/:items_per_page", cart.getCarts);
 app.get("/cart/:id", cart.getCart);
+app.get("/cartDetails/:id", cart.getCartDetails);
 app.post("/addToCart", cart.addProductToCart);
 app.post("/updateQuantity", cart.updateQuantityProductToCart);
 app.delete("/emptyCart", cart.emptyCart);
 
 const order = Order(main_db);
 app.post("/checkout", order.checkout);
-app.get("/order_details", order.getDetails);
+app.get("/orderDetails", order.getDetails);
 
 const reply = HelperResponse();
 app.all("*", (req, res) => {
